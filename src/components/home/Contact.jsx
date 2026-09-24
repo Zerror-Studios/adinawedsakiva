@@ -56,6 +56,10 @@ const Contact = () => {
                 </a>
             </div>
 
+            {/* Decorative Divider */}
+            <div className="w-12 h-px bg-[#3A3024] md:hidden self-center"></div>
+            <div className="hidden md:block w-px h-32 bg-[#3A3024] rounded-full absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"></div>
+
             <div className="center flex-col w-full md:w-1/2 text-center px-4">
                 <p className='uppercase text-sm mb-6 '>
                     We can't wait to celebrate!  <br />Please fill out the form below <br /> to RSVP.

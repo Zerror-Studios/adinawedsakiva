@@ -47,7 +47,7 @@ const Hero = () => {
           </div>
 
           {/* Names */}
-          <div className=' leading-none text-center text-8xl uppercase '>
+          <div className=' leading-none text-center text-4xl md:text-8xl uppercase '>
             <h1 className=''>
               Adina
               and
