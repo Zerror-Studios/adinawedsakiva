@@ -69,9 +69,14 @@ const CountDown = () => {
   );
 
   return (
-    <section className=' relative text-[#3A3024] py-44  flex flex-col items-center justify-center min-h-[40vh]'>
+    <section className=' relative z-10 text-[#3A3024] pt-44 flex flex-col items-center justify-center min-h-[40vh]'>
 
-      <div className="relative z-10">
+      <div className="relative bg-[#F3EBE9] z-100 p-36">
+        <img className="cover absolute z-[-1] opacity-50  inset-0" src="/images/paper.avif" alt="" />
+
+        <div className="absolute z-[100] inset-0 border-2 border-[#3A3024] z-10 pointer-events-none"></div>
+        <div className="absolute z-[100] inset-[1.25rem] md:inset-[1.25rem] border-4 border-dotted border-[#3A3024] z-10 pointer-events-none"></div>
+        <div className="absolute z-[100] inset-[1.5rem] md:inset-[2.5rem] border-2 border-[#3A3024] z-10 pointer-events-none"></div>
 
 
         {timeLeft.status === 'loading' && (

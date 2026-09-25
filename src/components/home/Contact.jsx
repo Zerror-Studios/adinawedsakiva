@@ -45,26 +45,38 @@ const Contact = () => {
     };
 
     return (
-        <div className='w-full  text-[#3A3024] py-32 md:py-44 px-6 flex flex-col md:flex-row items-start justify-center gap-12 md:gap-0 relative'>
+        <div className='w-full   z-100 text-[#3A3024] py-32 md:py-44 px-6 flex flex-col md:flex-row items-start justify-center gap-12 md:gap-0 relative'>
 
             <div className="center flex-col w-full md:w-1/2 text-center px-4">
-                <p className='uppercase text-sm mb-6 '>
-                    Your presence is our greatest gift. <br /> Should you wish to honor us with <br /> one, we are registered below.
-                </p>
-                <a target='_blank' rel="noreferrer" href="https://registryfinder.com/registry/akiva-gluck/adina-spiegel/wedding/november-2026/new-york/7092530">
-                    <button className='bg-[#3A3024] px-8 py-3 font-medium text-xs border border-transparent hover:border-[#3A3024] hover:text-[#3A3024] hover:bg-transparent transition-all duration-300 uppercase text-[#EDE3D5]'>Gift Registry</button>
-                </a>
+                <div className="bg-[#F3EBE9] relative p-36 z-10">
+                    <div className="absolute z-[100] inset-0  border-2 border-[#3A3024] z-10 pointer-events-none"></div>
+                    <div className="absolute z-[100] inset-[1.25rem] md:inset-[1.25rem]  border-4 border-dotted border-[#3A3024] z-10 pointer-events-none"></div>
+                    <div className="absolute z-[100] inset-[1.5rem] md:inset-[2.5rem]  border-2 border-[#3A3024] z-10 pointer-events-none"></div>
+
+                    <img className="cover absolute z-[-1] opacity-50  inset-0" src="/images/paper.avif" alt="" />
+                    <p className='uppercase text-sm mb-6 '>
+                        Your presence is our greatest gift. <br /> Should you wish to honor us with <br /> one, we are registered below.
+                    </p>
+                    <a target='_blank' rel="noreferrer" href="https://registryfinder.com/registry/akiva-gluck/adina-spiegel/wedding/november-2026/new-york/7092530">
+                        <button className='bg-[#3A3024] px-8 py-3 font-medium text-xs border border-transparent hover:border-[#3A3024] hover:text-[#3A3024] hover:bg-transparent transition-all duration-300 uppercase text-[#EDE3D5]'>Gift Registry</button>
+                    </a>
+                </div>
             </div>
 
-            {/* Decorative Divider */}
-            <div className="w-12 h-px bg-[#3A3024] md:hidden self-center"></div>
-            <div className="hidden md:block w-px h-32 bg-[#3A3024] rounded-full absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"></div>
 
             <div className="center flex-col w-full md:w-1/2 text-center px-4">
-                <p className='uppercase text-sm mb-6 '>
-                    We can't wait to celebrate!  <br />Please fill out the form below <br /> to RSVP.
-                </p>
-                <button onClick={handleOpen} className='bg-[#3A3024] px-8 py-3 font-medium text-xs border border-transparent hover:border-[#3A3024] hover:text-[#3A3024] hover:bg-transparent transition-all duration-300 uppercase text-[#EDE3D5]'>RSVP</button>
+                <div className="bg-[#F3EBE9] relative p-36 z-10">
+                    <div className="absolute z-[100] inset-0  border-2 border-[#3A3024] z-10 pointer-events-none"></div>
+                    <div className="absolute z-[100] inset-[1.25rem] md:inset-[1.25rem]  border-4 border-dotted border-[#3A3024] z-10 pointer-events-none"></div>
+                    <div className="absolute z-[100] inset-[1.5rem] md:inset-[2.5rem]  border-2 border-[#3A3024] z-10 pointer-events-none"></div>
+
+                    <img className="cover absolute z-[-1] opacity-50  inset-0" src="/images/paper.avif" alt="" />
+
+                    <p className='uppercase text-sm mb-6 '>
+                        We can't wait to celebrate!  <br />Please fill out the form below <br /> to RSVP.
+                    </p>
+                    <button onClick={handleOpen} className='bg-[#3A3024] px-8 py-3 font-medium text-xs border border-transparent hover:border-[#3A3024] hover:text-[#3A3024] hover:bg-transparent transition-all duration-300 uppercase text-[#EDE3D5]'>RSVP</button>
+                </div>
             </div>
 
             {/* RSVP Modal Backdrop */}
