@@ -3,9 +3,9 @@ import { sheets, auth } from '@googleapis/sheets';
 
 export async function POST(req) {
   try {
-    const { fullName, email, contactNumber, numberOfGuests } = await req.json();
+    const { name, email, contact, attending, guests } = await req.json();
 
-    if (!fullName || !email || !contactNumber || !numberOfGuests) {
+    if (!name || !email || !contact || attending === null) {
       return new Response(JSON.stringify({ error: 'All fields are required' }), { status: 400 });
     }
 
@@ -21,13 +21,14 @@ export async function POST(req) {
     const mailOptions = {
       from: process.env.NEXT_PUBLIC_EMAIL_USER,
       to: process.env.NEXT_PUBLIC_CLIENT_EMAIL,
-      subject: `New RSVP Submission from ${fullName}`,
+      subject: `New RSVP Submission from ${name}`,
       html: `
         <h2>New RSVP Submission</h2>
-        <p><strong>Full Name:</strong> ${fullName}</p>
+        <p><strong>Name:</strong> ${name}</p>
         <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Contact Number:</strong> ${contactNumber}</p>
-        <p><strong>Number of Guests:</strong> ${numberOfGuests}</p>
+        <p><strong>Contact Number:</strong> ${contact}</p>
+        <p><strong>Attending:</strong> ${attending ? 'Yes' : 'No'}</p>
+        <p><strong>Number of Guests:</strong> ${attending ? guests : 'N/A'}</p>
       `,
     };
 
@@ -48,15 +49,16 @@ export async function POST(req) {
 
         await sheetsAPI.spreadsheets.values.append({
           spreadsheetId: process.env.NEXT_PUBLIC_GOOGLE_SHEET_ID,
-          range: 'Sheet1!A:E',
+          range: 'Sheet1!A:F',
           valueInputOption: 'USER_ENTERED',
           requestBody: {
             values: [[
               new Date().toLocaleString(),
-              fullName,
+              name,
               email,
-              contactNumber,
-              numberOfGuests
+              contact,
+              attending ? 'Yes' : 'No',
+              attending ? guests : '0'
             ]],
           },
         });
