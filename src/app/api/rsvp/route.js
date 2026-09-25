@@ -20,7 +20,7 @@ export async function POST(req) {
 
     const mailOptions = {
       from: process.env.NEXT_PUBLIC_EMAIL_USER,
-      to: process.env.NEXT_PUBLIC_CLIENT_EMAIL || process.env.NEXT_PUBLIC_EMAIL_USER,
+      to: process.env.NEXT_PUBLIC_CLIENT_EMAIL,
       subject: `New RSVP Submission from ${fullName}`,
       html: `
         <h2>New RSVP Submission</h2>
