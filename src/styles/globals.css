@@ -7,9 +7,9 @@
 body {
   overflow-x: hidden;
   width: 100%;
-  /* background-color: #F4F2F3;
-  background-image: url("https://www.wallpaperstogo.com/cdn/shop/files/4173-27624.jpg?v=1765817898");
-  background-size: cover; */
+  /* background-color: #F4F2F3; */
+  /* background-image: url("../../public/images/paper.avif"); */
+  /* background-size: cover; */
   
 }
 body::-webkit-scrollbar {

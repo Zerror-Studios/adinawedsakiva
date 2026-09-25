@@ -47,8 +47,8 @@ const CountDown = () => {
 
   const TimeUnit = ({ value, label }) => (
     <div className="flex flex-col items-center w-16 sm:w-24 md:w-32 lg:w-40">
-      <span 
-        className="text-4xl sm:text-6xl md:text-7xl lg:text-[7rem]  leading-none" 
+      <span
+        className="text-4xl sm:text-6xl md:text-7xl lg:text-[7rem]  leading-none"
       >
         {String(value).padStart(2, '0')}
       </span>
@@ -60,8 +60,8 @@ const CountDown = () => {
 
   const Separator = () => (
     <div className="flex flex-col items-center justify-start h-full">
-      <span 
-        className="text-3xl sm:text-5xl md:text-6xl lg:text-[6rem]  leading-none mt-1 sm:mt-2 md:mt-3 mx-1 sm:mx-2 md:mx-4" 
+      <span
+        className="text-3xl sm:text-5xl md:text-6xl lg:text-[6rem]  leading-none mt-1 sm:mt-2 md:mt-3 mx-1 sm:mx-2 md:mx-4"
       >
         :
       </span>
@@ -69,42 +69,46 @@ const CountDown = () => {
   );
 
   return (
-    <section className='bg-[#3A3024] text-[#EDE3D5] py-44  flex flex-col items-center justify-center min-h-[40vh]'>
-      
-      {timeLeft.status === 'loading' && (
-        <div className="opacity-0">Loading...</div>
-      )}
+    <section className=' relative text-[#3A3024] py-44  flex flex-col items-center justify-center min-h-[40vh]'>
 
-      {timeLeft.status === 'ended' && (
-        <h2 
-          className="text-3xl md:text-5xl uppercase  text-center"
-        >
-          Event has ended
-        </h2>
-      )}
+      <div className="relative z-10">
 
-      {timeLeft.status === 'live' && (
-        <h2 
-          className="text-3xl md:text-5xl uppercase  text-center"
-        >
-          Event is live
-        </h2>
-      )}
 
-      {timeLeft.status === 'counting' && (
-        <div className="">
+        {timeLeft.status === 'loading' && (
+          <div className="opacity-0">Loading...</div>
+        )}
+
+        {timeLeft.status === 'ended' && (
+          <h2
+            className="text-3xl md:text-5xl uppercase  text-center"
+          >
+            Event has ended
+          </h2>
+        )}
+
+        {timeLeft.status === 'live' && (
+          <h2
+            className="text-3xl md:text-5xl uppercase  text-center"
+          >
+            Event is live
+          </h2>
+        )}
+
+        {timeLeft.status === 'counting' && (
+          <div className="">
             <p className='uppercase text-sm text-center'>Our Forever begins in</p>
-        <div className="flex items-start justify-center">
-          <TimeUnit value={timeLeft.days} label="Days" />
-          <Separator />
-          <TimeUnit value={timeLeft.hours} label="Hours" />
-          <Separator />
-          <TimeUnit value={timeLeft.minutes} label="Minutes" />
-          <Separator />
-          <TimeUnit value={timeLeft.seconds} label="Seconds" />
-        </div>
-        </div>
-      )}
+            <div className="flex items-start justify-center">
+              <TimeUnit value={timeLeft.days} label="Days" />
+              <Separator />
+              <TimeUnit value={timeLeft.hours} label="Hours" />
+              <Separator />
+              <TimeUnit value={timeLeft.minutes} label="Minutes" />
+              <Separator />
+              <TimeUnit value={timeLeft.seconds} label="Seconds" />
+            </div>
+          </div>
+        )}
+      </div>
 
     </section>
   )

@@ -45,7 +45,7 @@ const Contact = () => {
     };
 
     return (
-        <div className='w-full bg-[#EDE3D5] text-[#3A3024] py-32 md:py-44 px-6 flex flex-col md:flex-row items-start justify-center gap-12 md:gap-0 relative'>
+        <div className='w-full  text-[#3A3024] py-32 md:py-44 px-6 flex flex-col md:flex-row items-start justify-center gap-12 md:gap-0 relative'>
 
             <div className="center flex-col w-full md:w-1/2 text-center px-4">
                 <p className='uppercase text-sm mb-6 '>

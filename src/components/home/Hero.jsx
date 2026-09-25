@@ -9,54 +9,94 @@ if (typeof window !== 'undefined') {
 }
 
 const Hero = () => {
-  const containerRef = useRef(null);
-  const videoRef = useRef(null);
-  const textRef = useRef(null);
-
-  useGSAP(() => {
-    // Parallax for the background video (moves slower)
-    gsap.to(videoRef.current, {
-      yPercent: 30,
-      ease: "none",
-      scrollTrigger: {
-        trigger: containerRef.current,
-        start: "top top",
-        end: "bottom top",
-        scrub: true
-      }
-    });
-
-  }, { scope: containerRef });
 
   return (
-    <>
-      <section ref={containerRef} className='hero h-screen w-full flex flex-col text-[#EDE3D5] bg-[#3A3024] items-center justify-center relative overflow-hidden'>
-        
-        {/* We make the video container slightly taller than 100% so we have room to pan it without seeing edges */}
-        <div ref={videoRef} className="absolute inset-0 w-full h-[120%] -top-[10%]">
-          <video className='w-full h-full object-cover brightness-50' loop autoPlay muted playsInline src="/videos/hero.mp4"></video>
-        </div>
-        
-        <div ref={textRef} className='flex flex-col items-center justify-center px-4 uppercase text-center text-sm relative z-10'>
-          {/* Top Text */}
-          <div className='absolute  -translate-y-28'>
-            <p>Mr. and Mrs. Josh Spiegel</p>
-            <p>Mr. and Mrs. Elliot Gluck</p>
-            <p>Request the honor of your presence</p>
-            <p>at the marriage of their children</p>
-          </div>
+    <section className='relative w-full'>
+      <div className='hero py-12  relative z-10 w-full flex flex-col  items-center justify-center relative overflow-hidden'>
 
-          {/* Names */}
-          <div className=' leading-none text-center text-4xl md:text-8xl uppercase '>
-            <h1 className=''>
-              Adina
-              and
-              Akiva
-            </h1>
+        <div className="w-[50%] pt-20 relative overflow-hidden bg-[#F3EBE9]  text-[#3A3024] rounded-t-full">
+
+          <div className="absolute z-[100] inset-0 rounded-t-full border-2 border-[#3A3024] z-10 pointer-events-none"></div>
+          <div className="absolute z-[100] inset-[1.25rem] md:inset-[1.25rem] rounded-t-full border-4 border-dotted border-[#3A3024] z-10 pointer-events-none"></div>
+          <div className="absolute z-[100] inset-[1.5rem] md:inset-[2.5rem] rounded-t-full border-2 border-[#3A3024] z-10 pointer-events-none"></div>
+
+          <img className="cover absolute opacity-50  inset-0" src="/images/paper.avif" alt="" />
+
+          <div className='flex w-full  flex-col items-center justify-center gap-y-24 px-4 uppercase text-center text-sm relative z-10'>
+            {/* Top Text */}
+            <div className="bg-[#F3EBE9] rounded-full">
+              <img className='w-44' src="/images/logo.svg" alt="" />
+            </div>
+            <div className=''>
+              <p>Mr. and Mrs. Josh Spiegel</p>
+              <p>Mr. and Mrs. Elliot Gluck</p>
+              <p>Request the honor of your presence</p>
+              <p>at the marriage of their children</p>
+            </div>
+            {/* Names */}
+            <div className=' leading-[8rem] text-center text-4xl md:text-[10rem] normal-case '>
+              <p className='calli -translate-x-20'>
+                Adina
+              </p>
+              <p className='uppercase text-sm'>
+                and
+              </p>
+              <p className='calli translate-x-20'>
+                Akiva
+              </p>
+            </div>
+          </div>
+          <div className="flex z-10 relative flex-col items-center text-center py-24 w-full space-y-12 ">
+
+            {/* Save the Date */}
+            <div className="flex flex-col items-center space-y-4 md:space-y-5">
+              <p className="uppercase text-3xl ">
+                Sunday, 8<sup className='lowercase'>th</sup> Nov, 2026
+              </p>
+              <p className="uppercase text-sm">
+                At five o'clock in the evening
+              </p>
+            </div>
+
+            {/* Decorative Divider */}
+            <div className="w-12 h-px bg-[#3A3024]/20"></div>
+
+            {/* Venue */}
+            <div className="flex flex-col items-center space-y-4 md:space-y-5">
+              <p className='uppercase  opacity-80 text-sm mb-2'>Venue</p>
+              <div className="">
+
+                <p className=" text-3xl  uppercase">
+                  The Duggal Greenhouse
+                </p>
+                <p className=" text-3xl uppercase">
+                  Brooklyn, New York
+                </p>
+              </div>
+            </div>
+
+            {/* Decorative Divider */}
+            <div className="w-12 h-px bg-[#3A3024]/20"></div>
+
+            {/* Dress code */}
+            <div className="flex flex-col items-center space-y-4 md:space-y-5">
+              <p className='uppercase  opacity-80 text-sm mb-2'>Dress code</p>
+              <div className="">
+
+                <p className="uppercase text-3xl">
+                  Black Tie
+                </p>
+                <p className="uppercase text-3xl ">
+                  Modest Dress Requested
+                </p>
+              </div>
+            </div>
+
           </div>
         </div>
-      </section>
-    </>
+      </div>
+
+    </section>
   )
 }
 

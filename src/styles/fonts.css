@@ -2,14 +2,21 @@
   font-family: Baskervville;
   src: url(../../public/fonts/Baskervville-VariableFont_wght.ttf);
 }
+@font-face {
+  font-family: Amorista;
+  src: url(../../public/fonts/Amorista.ttf);
+}
 html,
 body {
   font-size: 14px;
   font-weight: 400;
   font-family: "Baskervville", serif;
   font-display: swap;
+  color: #b9a1a1;
 }
-
+.calli{
+  font-family: Amorista;
+}
 @media (min-width: 750px) {
   html,
   body {
