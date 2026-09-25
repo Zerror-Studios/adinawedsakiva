@@ -95,12 +95,12 @@ const Contact = () => {
 
     return (
         <>
-            <div className="fixed z-10 top-4 left-4">
+            <div className="absolute ab_tp_btn opacity-0 z-10 top-4 left-4">
                 <a target='_blank' rel="noreferrer" href="https://registryfinder.com/registry/akiva-gluck/adina-spiegel/wedding/november-2026/new-york/7092530">
                     <button className='bg-[#3A3024] px-8 py-3 font-medium z-10 relative text-xs border border-transparent hover:border-[#3A3024] hover:text-[#3A3024] hover:bg-transparent transition-all duration-300 uppercase text-[#F3EBE9]'>Gift Registry</button>
                 </a>
             </div>
-            <div className="fixed z-10 top-4 right-4">
+            <div className="absolute ab_tp_btn opacity-0 z-10 top-4 right-4">
                 <button onClick={handleOpen} className=' bg-[#3A3024] px-8 py-3 font-medium z-10 relative text-xs border border-transparent hover:border-[#3A3024] hover:text-[#3A3024] hover:bg-transparent transition-all duration-300 uppercase text-[#F3EBE9]'>RSVP</button>
             </div>
             <div className='w-full   z-100 text-[#3A3024] py-32 md:py-44 center  relative'>

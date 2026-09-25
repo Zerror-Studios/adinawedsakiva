@@ -1,5 +1,5 @@
 export const siteConfig = {
-  name: "Adina & Akiva | Wedding Site",
+  name: "Adina Weds Akiva ",
   description: "Join us in celebrating the marriage of Adina and Akiva  on Sunday, November 8th, 2026 at The Duggal Greenhouse, Brooklyn, NY.",
   url: "https://www.adinawedsakiva.com",
   locale: "en_US",
@@ -41,7 +41,7 @@ export const siteRoutes = [
   {
     path: "/",
     label: "Home",
-    title: "Adina & Akiva | Wedding Site",
+    title: "Adina Weds Akiva ",
     description: siteConfig.description,
     priority: 1,
   }
