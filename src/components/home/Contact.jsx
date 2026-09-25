@@ -45,7 +45,7 @@ const Contact = () => {
     };
 
     return (
-        <div className='w-full   z-100 text-[#3A3024] py-32 md:py-44 px-6 flex flex-col md:flex-row items-start justify-center gap-12 md:gap-0 relative'>
+        <div className='w-full   z-100 text-[#3A3024] py-44 px-6 flex flex-col md:flex-row items-start justify-center gap-12 md:gap-0 relative'>
 
             <div className="center flex-col w-full md:w-1/2 text-center px-4">
                 <div className="bg-[#F3EBE9] relative p-36 z-10">

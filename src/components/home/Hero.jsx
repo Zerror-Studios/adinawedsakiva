@@ -12,9 +12,9 @@ const Hero = () => {
 
   return (
     <section className='relative w-full'>
-      <div className='hero py-12  relative z-10 w-full flex flex-col  items-center justify-center relative overflow-hidden'>
+      <div className='hero pt-12  relative z-10 w-full flex flex-col  items-center justify-center relative overflow-hidden'>
 
-        <div className="w-[50%] pt-20 relative overflow-hidden bg-[#F3EBE9]  text-[#3A3024] rounded-t-full">
+        <div className="w-[50%] pt-44 relative overflow-hidden bg-[#F3EBE9]  text-[#3A3024] rounded-t-full">
 
           <div className="absolute z-[100] inset-0 rounded-t-full border-2 border-[#3A3024] z-10 pointer-events-none"></div>
           <div className="absolute z-[100] inset-[1.25rem] md:inset-[1.25rem] rounded-t-full border-4 border-dotted border-[#3A3024] z-10 pointer-events-none"></div>
@@ -24,9 +24,9 @@ const Hero = () => {
 
           <div className='flex w-full  flex-col items-center justify-center gap-y-24 px-4 uppercase text-center text-sm relative z-10'>
             {/* Top Text */}
-            <div className="bg-[#F3EBE9] rounded-full">
-              <img className='w-44' src="/images/logo.svg" alt="" />
-            </div>
+
+              <img className='w-44 drop-shadow-xl ' src="/images/logo.svg" alt="" />
+
             <div className=''>
               <p>Mr. and Mrs. Josh Spiegel</p>
               <p>Mr. and Mrs. Elliot Gluck</p>
@@ -46,7 +46,7 @@ const Hero = () => {
               </p>
             </div>
           </div>
-          <div className="flex z-10 relative flex-col items-center text-center py-24 w-full space-y-12 ">
+          <div className="flex z-10 relative flex-col items-center text-center py-44 w-full space-y-12 ">
 
             {/* Save the Date */}
             <div className="flex flex-col items-center space-y-4 md:space-y-5">
