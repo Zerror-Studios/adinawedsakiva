@@ -96,10 +96,10 @@ const Home = () => {
                                     <p className='absolute'>AND</p>
                                     <img className=' w-[70%] md:w-[18rem]' src="/images/name.png" alt="" />
                                 </div>
-                                <p className=" anim_prt opacity-0 uppercase leading-none text-2xl ">
+                                <p className=" anim_prt opacity-0 uppercase leading-none text-xl md:text-2xl ">
                                     NOVEMBER 8 , 2026
                                 </p>
-                                <div className=" anim_prt opacity-0 text-sm uppercase text-center">
+                                <div className=" anim_prt opacity-0 text-xs md:text-sm uppercase text-center">
                                     <p> The Duggal Greenhouse</p>
                                     <p>Brooklyn, New York</p>
                                 </div>
@@ -123,15 +123,15 @@ const Home = () => {
 
                                 <div className=" anim_prt opacity-0 flex flex-col md:flex-row items-center gap-y-2 gap-x-5">
                                     <div className="">
-                                        <button onClick={() => setIsRsvpOpen(true)} className='  w-[60vw] md:w-60 py-2.5 rounded-sm font-medium z-10 relative border-2 text-[#605C58] border-[#605C58] hover:text-[#F3EBE9] hover:bg-[#605C58] transition-all duration-300 uppercase'>RSVP</button>
+                                        <button onClick={() => setIsRsvpOpen(true)} className=' text-xs md:text-sm  w-[60vw] md:w-60 py-2.5 rounded-sm font-medium z-10 relative border md:border-2 text-[#605C58] border-[#605C58] hover:text-[#F3EBE9] hover:bg-[#605C58] transition-all duration-300 uppercase'>RSVP</button>
                                     </div>
                                     <div className="">
                                         <a target='_blank' rel="noreferrer" href="https://registryfinder.com/registry/akiva-gluck/adina-spiegel/wedding/november-2026/new-york/7092530">
-                                            <button className='  w-[60vw] md:w-60 py-2.5 rounded-sm font-medium z-10 relative border-2 text-[#605C58] border-[#605C58] hover:text-[#F3EBE9] hover:bg-[#605C58] transition-all duration-300 uppercase'>Gift Registry</button>
+                                            <button className=' text-xs md:text-sm  w-[60vw] md:w-60 py-2.5 rounded-sm font-medium z-10 relative border md:border-2 text-[#605C58] border-[#605C58] hover:text-[#F3EBE9] hover:bg-[#605C58] transition-all duration-300 uppercase'>Gift Registry</button>
                                         </a>
                                     </div>
                                 </div>
-                                <div className="anim_prt opacity-0 text-sm uppercase text-center">
+                                <div className="anim_prt opacity-0 text-xs md:text-sm uppercase text-center">
                                     <p> Black Tie • Modest Dress Requested</p>
                                 </div>
                             </div>
