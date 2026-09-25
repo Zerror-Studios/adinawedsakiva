@@ -73,7 +73,7 @@ const CountDown = () => {
     <section className=' relative z-10 text-[#3A3024] pt-32 md:pt-44 flex flex-col items-center justify-center min-h-[40vh]'>
 
       <div className="relative  w-[calc(100%-2rem)] md:w-[65%] z-100 py-32 md:p-36">
-        <Image fill className="cover absolute z-[-1]   inset-0" src="/images/paper_bg.png" alt="" />
+        <Image fill className="cover absolute z-[-1]   inset-0" src="/images/paper_bg.png" alt="img" />
 
         <div className="absolute z-[100] inset-0 border-2 border-[#3A3024] z-10 pointer-events-none"></div>
         <div className="absolute z-[100] inset-[1.25rem] md:inset-[1.25rem] border-4 border-dotted border-[#3A3024] z-10 pointer-events-none"></div>

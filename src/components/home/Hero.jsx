@@ -22,11 +22,11 @@ const Hero = () => {
           <div className="absolute z-[100] inset-[0.75rem] md:inset-[1.25rem] rounded-t-full border-4 border-dotted border-[#3A3024] z-10 pointer-events-none"></div>
           <div className="absolute z-[100] inset-[1.5rem] md:inset-[2.5rem] rounded-t-full border-2 border-[#3A3024] z-10 pointer-events-none"></div>
 
-          <Image fill className="cover  inset-0" src="/images/paper_bg.png" alt="" />
+          <Image fill className="cover  inset-0" src="/images/paper_bg.png" alt="img" />
 
           <div className='flex w-full  flex-col items-center justify-center gap-y-12 px-4 uppercase text-center text-sm relative z-10'>
 
-            <Image width={240} height={240} className=' w-32 md:w-60 h-auto' src="/images/logo.png" alt="" />
+            <Image width={240} height={240} className=' w-32 md:w-60 h-auto' src="/images/logo.png" alt="img" />
 
             <div className=''>
               <p>Mr. and Mrs. Josh Spiegel</p>
@@ -34,7 +34,7 @@ const Hero = () => {
               <p>Request the honor of your presence</p>
               <p>at the marriage of their children</p>
             </div>
-            <Image width={480} height={480} className=' w-[20rem] md:w-[30rem] h-auto' src="/images/names.svg" alt="" />
+            <Image width={480} height={480} className=' w-[20rem] md:w-[30rem] h-auto' src="/images/names.svg" alt="img" />
           </div>
           <div className="flex z-10 relative flex-col items-center text-center py-32 w-full space-y-12 ">
 

@@ -59,7 +59,7 @@ const Contact = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        
+
         const newErrors = {};
         if (!formData.fullName.trim()) newErrors.fullName = 'Full Name is required';
         if (!formData.email.trim()) newErrors.email = 'Email Address is required';
@@ -111,7 +111,7 @@ const Contact = () => {
                         <div className="absolute z-[100] inset-0  border-2 border-[#3A3024] z-10 pointer-events-none"></div>
                         <div className="absolute z-[100] inset-[0.75rem] md:inset-[1.25rem]  border-4 border-dotted border-[#3A3024] z-10 pointer-events-none"></div>
                         <div className="absolute z-[100] inset-[1.5rem] md:inset-[2.5rem]  border-2 border-[#3A3024] z-10 pointer-events-none"></div>
-                        <Image fill className="cover absolute z-[-1]   inset-0" src="/images/paper_bg.png" alt="" />
+                        <Image fill className="cover absolute z-[-1]   inset-0" src="/images/paper_bg.png" alt="img" />
                         <p className='uppercase font-medium text-sm mb-6 '>
                             Your presence is our greatest gift. <br /> Should you wish to honor us with <br /> one, we are registered below.
                         </p>
@@ -125,7 +125,7 @@ const Contact = () => {
                         <div className="absolute z-[100] inset-0  border-2 border-[#3A3024] z-10 pointer-events-none"></div>
                         <div className="absolute z-[100] inset-[0.75rem] md:inset-[1.25rem]  border-4 border-dotted border-[#3A3024] z-10 pointer-events-none"></div>
                         <div className="absolute z-[100] inset-[1.5rem] md:inset-[2.5rem]  border-2 border-[#3A3024] z-10 pointer-events-none"></div>
-                        <Image fill className="cover absolute z-[-1]   inset-0" src="/images/paper_bg.png" alt="" />
+                        <Image fill className="cover absolute z-[-1]   inset-0" src="/images/paper_bg.png" alt="img" />
 
                         <p className='uppercase text-sm mb-6 '>
                             We can't wait to celebrate!  <br />Please fill out the form below <br /> to RSVP.
@@ -144,7 +144,7 @@ const Contact = () => {
                             <div className="absolute z-[100] inset-[0.75rem] md:inset-[1.25rem]  border-4 border-dotted border-[#3A3024] z-10 pointer-events-none"></div>
                             <div className="absolute z-[100] inset-[1.5rem] md:inset-[2.5rem]  border-2 border-[#3A3024] z-10 pointer-events-none"></div>
 
-                            <Image fill className="cover absolute z-[-1]   inset-0" src="/images/paper_bg.png" alt="" />
+                            <Image fill className="cover absolute z-[-1]   inset-0" src="/images/paper_bg.png" alt="img" />
 
                             {step === 'initial' && (
                                 <div className="w-full animate-scale-in p-0 md:p-8 space-y-16">

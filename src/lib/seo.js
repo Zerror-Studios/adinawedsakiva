@@ -68,10 +68,7 @@ export function createMetadata({
       description,
       images: [imageUrl],
     },
-    icons: {
-      icon: "/favicon.ico",
-      shortcut: "/favicon.ico",
-    },
+
     other: {
       image_src: imageUrl,
     },
