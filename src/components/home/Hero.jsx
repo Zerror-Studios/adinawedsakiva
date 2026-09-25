@@ -3,6 +3,7 @@ import React, { useRef } from 'react'
 import gsap from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import Image from 'next/image';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -12,20 +13,20 @@ const Hero = () => {
 
   return (
     <section className='relative w-full'>
-      <div className='hero pt-12  relative z-10 w-full flex flex-col  items-center justify-center relative overflow-hidden'>
+      <h1 className='fixed opacity-0 pointer-events-none'>Adina and akiva wedding site</h1>
+      <div className='hero pt-24 md:pt-12  relative z-10 w-full flex flex-col  items-center justify-center relative overflow-hidden'>
 
-        <div className="w-[50%] pt-44 relative overflow-hidden bg-[#F3EBE9]  text-[#3A3024] rounded-t-full">
+        <div className=" w-[calc(100%-2rem)] md:w-[65%] pt-18 relative overflow-hidden    text-[#3A3024] rounded-t-full">
 
           <div className="absolute z-[100] inset-0 rounded-t-full border-2 border-[#3A3024] z-10 pointer-events-none"></div>
-          <div className="absolute z-[100] inset-[1.25rem] md:inset-[1.25rem] rounded-t-full border-4 border-dotted border-[#3A3024] z-10 pointer-events-none"></div>
+          <div className="absolute z-[100] inset-[0.75rem] md:inset-[1.25rem] rounded-t-full border-4 border-dotted border-[#3A3024] z-10 pointer-events-none"></div>
           <div className="absolute z-[100] inset-[1.5rem] md:inset-[2.5rem] rounded-t-full border-2 border-[#3A3024] z-10 pointer-events-none"></div>
 
-          <img className="cover absolute opacity-50  inset-0" src="/images/paper.avif" alt="" />
+          <Image fill className="cover  inset-0" src="/images/paper_bg.png" alt="" />
 
-          <div className='flex w-full  flex-col items-center justify-center gap-y-24 px-4 uppercase text-center text-sm relative z-10'>
-            {/* Top Text */}
+          <div className='flex w-full  flex-col items-center justify-center gap-y-12 px-4 uppercase text-center text-sm relative z-10'>
 
-              <img className='w-44 drop-shadow-xl ' src="/images/logo.svg" alt="" />
+            <Image width={240} height={240} className=' w-32 md:w-60 h-auto' src="/images/logo.png" alt="" />
 
             <div className=''>
               <p>Mr. and Mrs. Josh Spiegel</p>
@@ -33,24 +34,12 @@ const Hero = () => {
               <p>Request the honor of your presence</p>
               <p>at the marriage of their children</p>
             </div>
-            {/* Names */}
-            <div className=' leading-[8rem] text-center text-4xl md:text-[10rem] normal-case '>
-              <p className='calli -translate-x-20'>
-                Adina
-              </p>
-              <p className='uppercase text-sm'>
-                and
-              </p>
-              <p className='calli translate-x-20'>
-                Akiva
-              </p>
-            </div>
+            <Image width={480} height={480} className=' w-[20rem] md:w-[30rem] h-auto' src="/images/names.svg" alt="" />
           </div>
-          <div className="flex z-10 relative flex-col items-center text-center py-44 w-full space-y-12 ">
+          <div className="flex z-10 relative flex-col items-center text-center py-32 w-full space-y-12 ">
 
-            {/* Save the Date */}
             <div className="flex flex-col items-center space-y-4 md:space-y-5">
-              <p className="uppercase text-3xl ">
+              <p className="uppercase text-xl md:text-2xl ">
                 Sunday, 8<sup className='lowercase'>th</sup> Nov, 2026
               </p>
               <p className="uppercase text-sm">
@@ -58,35 +47,31 @@ const Hero = () => {
               </p>
             </div>
 
-            {/* Decorative Divider */}
             <div className="w-12 h-px bg-[#3A3024]/20"></div>
 
-            {/* Venue */}
             <div className="flex flex-col items-center space-y-4 md:space-y-5">
               <p className='uppercase  opacity-80 text-sm mb-2'>Venue</p>
               <div className="">
 
-                <p className=" text-3xl  uppercase">
+                <p className=" text-xl md:text-2xl  uppercase">
                   The Duggal Greenhouse
                 </p>
-                <p className=" text-3xl uppercase">
+                <p className=" text-xl md:text-2xl uppercase">
                   Brooklyn, New York
                 </p>
               </div>
             </div>
 
-            {/* Decorative Divider */}
             <div className="w-12 h-px bg-[#3A3024]/20"></div>
 
-            {/* Dress code */}
             <div className="flex flex-col items-center space-y-4 md:space-y-5">
               <p className='uppercase  opacity-80 text-sm mb-2'>Dress code</p>
               <div className="">
 
-                <p className="uppercase text-3xl">
+                <p className="uppercase text-xl md:text-2xl">
                   Black Tie
                 </p>
-                <p className="uppercase text-3xl ">
+                <p className="uppercase text-xl md:text-2xl ">
                   Modest Dress Requested
                 </p>
               </div>

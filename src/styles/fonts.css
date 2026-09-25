@@ -9,7 +9,7 @@
 html,
 body {
   font-size: 14px;
-  font-weight: 400;
+  font-weight: 500;
   font-family: "Baskervville", serif;
   font-display: swap;
   color: #b9a1a1;
@@ -27,11 +27,5 @@ body {
   html,
   body {
     font-size: 1vw;
-  }
-}
-@media (min-width: 2500px) {
-  html,
-  body {
-    font-size: 18px;
   }
 }
