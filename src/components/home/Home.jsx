@@ -72,6 +72,13 @@ const Home = () => {
 
     useGSAP(() => {
         const tl = gsap.timeline()
+        tl.to(".anim_prt_name", {
+            opacity: 1,
+        })
+        tl.to(".anim_prt_bg", {
+            opacity: 1,
+            delay: 0.5
+        })
         tl.to(".anim_prt", {
             opacity: 1,
             stagger: 0.15
@@ -80,19 +87,20 @@ const Home = () => {
 
     return (
         <>
-            <div className="w-full pt-5 h-screen  text-[#605C58] relative">
-                <div className="absolute inset-0">
+            <div className="w-full pt-5 h-screen bg-[#F3F1EC]  text-[#605C58] relative">
+
+                <div className=" anim_prt_bg opacity-0 absolute inset-0">
                     <img className='cover' src="/images/flower_bg.webp" alt="" />
                 </div>
                 <div className="relative overflow-hidden  z-10 w-full h-full center">
                     <div className="w-full md:w-[60%] mx-auto  h-full  relative ">
-                        <img className=' max-sm:h-full absolute inset-0 translate-x-4.5 md:translate-x-9 pointer-events-none z-100 w-full' src="/images/frame.webp" alt="" />
+                        <img className=' anim_prt_bg opacity-0 max-sm:h-full absolute inset-0 translate-x-4.5 md:translate-x-9 pointer-events-none z-100 w-full' src="/images/frame.webp" alt="" />
                         <div className="w-[85%]  mx-auto h-full  overflow-hidden rounded-t-full  relative">
-                            <img className=' absolute h-full w-full z-[-1]' src="/images/paper.webp" alt="" />
+                            <img className=' anim_prt_bg opacity-0 absolute h-full w-full z-[-1]' src="/images/paper.webp" alt="" />
 
                             <div className=" pt-[6vh] md:pt-[14vh] relative h-full pb-[3vh] md:pb-[3vh]  flex flex-col items-center justify-between  z-10">
                                 <img className='anim_prt opacity-0 w-20 md:w-24' src="/images/logo.webp" alt="" />
-                                <div className=" anim_prt opacity-0 center ">
+                                <div className=" anim_prt_name opacity-0 center ">
                                     <p className='absolute'>AND</p>
                                     <img className=' w-[70%] md:w-[18rem]' src="/images/name.webp" alt="" />
                                 </div>
