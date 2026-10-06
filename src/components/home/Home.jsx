@@ -6,6 +6,7 @@ import React, { useState, useEffect } from 'react'
 
 const Home = () => {
     const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0 });
+    const [isPastDate, setIsPastDate] = useState(false);
     const [isRsvpOpen, setIsRsvpOpen] = useState(false);
     const [rsvpData, setRsvpData] = useState({ mrName: '', mrsName: '', email: '', contact: '', attending: null, guests: 1, guestNames: '' });
     const [rsvpStatus, setRsvpStatus] = useState('idle');
@@ -57,8 +58,10 @@ const Home = () => {
                 const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                 const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
                 setTimeLeft({ days, hours, minutes });
+                setIsPastDate(false);
             } else {
                 setTimeLeft({ days: 0, hours: 0, minutes: 0 });
+                setIsPastDate(true);
             }
         };
 
@@ -112,22 +115,24 @@ const Home = () => {
                                     <p>Brooklyn, New York</p>
                                 </div>
 
-                                <div className=" anim_prt opacity-0 flex items-center leading-none gap-6 md:gap-10 ">
-                                    <div className="flex flex-col items-center">
-                                        <span className=" text-4xl ">{pad(timeLeft.days)}</span>
-                                        <span className="text-xs mt-1 uppercase">Days</span>
+                                {!isPastDate && (
+                                    <div className=" anim_prt opacity-0 flex items-center leading-none gap-6 md:gap-10 ">
+                                        <div className="flex flex-col items-center">
+                                            <span className=" text-4xl ">{pad(timeLeft.days)}</span>
+                                            <span className="text-xs mt-1 uppercase">Days</span>
+                                        </div>
+                                        <span className="text-2xl">|</span>
+                                        <div className="flex flex-col items-center">
+                                            <span className=" text-4xl ">{pad(timeLeft.hours)}</span>
+                                            <span className="text-xs mt-1 uppercase">Hours</span>
+                                        </div>
+                                        <span className="text-2xl">|</span>
+                                        <div className="flex flex-col items-center">
+                                            <span className=" text-4xl ">{pad(timeLeft.minutes)}</span>
+                                            <span className="text-xs mt-1 uppercase">Minutes</span>
+                                        </div>
                                     </div>
-                                    <span className="text-2xl">|</span>
-                                    <div className="flex flex-col items-center">
-                                        <span className=" text-4xl ">{pad(timeLeft.hours)}</span>
-                                        <span className="text-xs mt-1 uppercase">Hours</span>
-                                    </div>
-                                    <span className="text-2xl">|</span>
-                                    <div className="flex flex-col items-center">
-                                        <span className=" text-4xl ">{pad(timeLeft.minutes)}</span>
-                                        <span className="text-xs mt-1 uppercase">Minutes</span>
-                                    </div>
-                                </div>
+                                )}
 
                                 <div className=" anim_prt opacity-0 flex flex-col md:flex-row items-center gap-y-2 gap-x-5">
                                     <div className="">
