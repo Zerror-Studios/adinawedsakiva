@@ -3,10 +3,10 @@ import { sheets, auth } from '@googleapis/sheets';
 
 export async function POST(req) {
   try {
-    const { name, email, contact, attending, guests } = await req.json();
+    const { mrName, mrsName, email, contact, attending, guests, guestNames } = await req.json();
 
-    if (!name || !email || !contact || attending === null) {
-      return new Response(JSON.stringify({ error: 'All fields are required' }), { status: 400 });
+    if ((!mrName && !mrsName) || !email || !contact || attending === null) {
+      return new Response(JSON.stringify({ error: 'Required fields missing' }), { status: 400 });
     }
 
     // Use Gmail service if standard gmail passwords are provided
@@ -21,14 +21,16 @@ export async function POST(req) {
     const mailOptions = {
       from: process.env.NEXT_PUBLIC_EMAIL_USER,
       to: process.env.NEXT_PUBLIC_CLIENT_EMAIL,
-      subject: `New RSVP Submission from ${name}`,
+      subject: `New RSVP Submission from ${mrName || mrsName || 'Guest'}`,
       html: `
         <h2>New RSVP Submission</h2>
-        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Mr. (Name):</strong> ${mrName || 'N/A'}</p>
+        <p><strong>Mrs. (Name):</strong> ${mrsName || 'N/A'}</p>
         <p><strong>Email:</strong> ${email}</p>
         <p><strong>Contact Number:</strong> ${contact}</p>
         <p><strong>Attending:</strong> ${attending ? 'Yes' : 'No'}</p>
         <p><strong>Number of Guests:</strong> ${attending ? guests : 'N/A'}</p>
+        <p><strong>Guest Names:</strong> ${guestNames || 'N/A'}</p>
       `,
     };
 
@@ -49,16 +51,18 @@ export async function POST(req) {
 
         await sheetsAPI.spreadsheets.values.append({
           spreadsheetId: process.env.NEXT_PUBLIC_GOOGLE_SHEET_ID,
-          range: 'Sheet1!A:F',
+          range: 'Sheet1!A:H',
           valueInputOption: 'USER_ENTERED',
           requestBody: {
             values: [[
               new Date().toLocaleString(),
-              name,
+              mrName || 'N/A',
+              mrsName || 'N/A',
               email,
               contact,
               attending ? 'Yes' : 'No',
-              attending ? guests : '0'
+              attending ? guests : '0',
+              guestNames || 'N/A'
             ]],
           },
         });

@@ -8,10 +8,12 @@ const Contact = () => {
     const [isVisible, setIsVisible] = useState(false);
     const [step, setStep] = useState('initial');
     const [formData, setFormData] = useState({
-        fullName: '',
+        mrName: '',
+        mrsName: '',
         email: '',
         contactNumber: '',
-        numberOfGuests: ''
+        numberOfGuests: '',
+        guestNames: ''
     });
     const [errors, setErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -61,7 +63,9 @@ const Contact = () => {
         e.preventDefault();
 
         const newErrors = {};
-        if (!formData.fullName.trim()) newErrors.fullName = 'Full Name is required';
+        if (!formData.mrName.trim() && !formData.mrsName.trim()) {
+            newErrors.mrName = 'Please provide at least one name';
+        }
         if (!formData.email.trim()) newErrors.email = 'Email Address is required';
         if (!formData.contactNumber.trim()) newErrors.contactNumber = 'Contact Number is required';
         if (!formData.numberOfGuests) newErrors.numberOfGuests = 'Number of Guests is required';
@@ -73,14 +77,23 @@ const Contact = () => {
 
         setIsSubmitting(true);
         try {
+            const payload = {
+                mrName: formData.mrName,
+                mrsName: formData.mrsName,
+                email: formData.email,
+                contact: formData.contactNumber,
+                attending: true,
+                guests: formData.numberOfGuests,
+                guestNames: formData.guestNames
+            };
             const res = await fetch('/api/rsvp', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(formData)
+                body: JSON.stringify(payload)
             });
             if (res.ok) {
                 setStep('success');
-                setFormData({ fullName: '', email: '', contactNumber: '', numberOfGuests: '' });
+                setFormData({ mrName: '', mrsName: '', email: '', contactNumber: '', numberOfGuests: '', guestNames: '' });
             } else {
                 console.error("Failed to submit form");
                 setStep('error');
@@ -167,8 +180,11 @@ const Contact = () => {
 
                                     <div className="w-full space-y-6 text-left">
                                         <div>
-                                            <input name="fullName" value={formData.fullName} onChange={handleChange} required type="text" placeholder="Full Name" className="w-full bg-transparent border-b border-[#3A3024]/40  text-xl text-[#3A3024] placeholder:text-[#3A3024]/60 focus:outline-none focus:border-[#3A3024] transition-colors" />
-                                            {errors.fullName && <p className="text-red-500 text-xs mt-1">{errors.fullName}</p>}
+                                            <input name="mrName" value={formData.mrName} onChange={handleChange} type="text" placeholder="Mr. (Full Name)" className="w-full bg-transparent border-b border-[#3A3024]/40  text-xl text-[#3A3024] placeholder:text-[#3A3024]/60 focus:outline-none focus:border-[#3A3024] transition-colors" />
+                                            {errors.mrName && <p className="text-red-500 text-xs mt-1">{errors.mrName}</p>}
+                                        </div>
+                                        <div>
+                                            <input name="mrsName" value={formData.mrsName} onChange={handleChange} type="text" placeholder="Mrs. (Full Name)" className="w-full bg-transparent border-b border-[#3A3024]/40  text-xl text-[#3A3024] placeholder:text-[#3A3024]/60 focus:outline-none focus:border-[#3A3024] transition-colors" />
                                         </div>
                                         <div>
                                             <input name="email" value={formData.email} onChange={handleChange} required type="email" placeholder="Email Address" className="w-full bg-transparent border-b border-[#3A3024]/40  text-xl text-[#3A3024] placeholder:text-[#3A3024]/60 focus:outline-none focus:border-[#3A3024] transition-colors" />
@@ -181,6 +197,9 @@ const Contact = () => {
                                         <div>
                                             <input name="numberOfGuests" value={formData.numberOfGuests} onChange={handleChange} required type="number" min="1" placeholder="Number of Guests" className="w-full bg-transparent border-b border-[#3A3024]/40  text-xl text-[#3A3024] placeholder:text-[#3A3024]/60 focus:outline-none focus:border-[#3A3024] transition-colors" />
                                             {errors.numberOfGuests && <p className="text-red-500 text-xs mt-1">{errors.numberOfGuests}</p>}
+                                        </div>
+                                        <div>
+                                            <textarea name="guestNames" value={formData.guestNames} onChange={handleChange} placeholder="Full Names of Guests (if any)" className="w-full bg-transparent border-b border-[#3A3024]/40  text-xl text-[#3A3024] placeholder:text-[#3A3024]/60 focus:outline-none focus:border-[#3A3024] transition-colors resize-none h-10" />
                                         </div>
                                     </div>
 

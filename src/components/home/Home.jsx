@@ -7,7 +7,7 @@ import React, { useState, useEffect } from 'react'
 const Home = () => {
     const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0 });
     const [isRsvpOpen, setIsRsvpOpen] = useState(false);
-    const [rsvpData, setRsvpData] = useState({ name: '', email: '', contact: '', attending: null, guests: 1 });
+    const [rsvpData, setRsvpData] = useState({ mrName: '', mrsName: '', email: '', contact: '', attending: null, guests: 1, guestNames: '' });
     const [rsvpStatus, setRsvpStatus] = useState('idle');
     const [rsvpMessage, setRsvpMessage] = useState('');
 
@@ -34,7 +34,7 @@ const Home = () => {
             if (res.ok) {
                 setRsvpStatus('success');
                 setRsvpMessage('Your RSVP has been submitted successfully!');
-                setRsvpData({ name: '', email: '', contact: '', attending: null, guests: 1 });
+                setRsvpData({ mrName: '', mrsName: '', email: '', contact: '', attending: null, guests: 1, guestNames: '' });
             } else {
                 setRsvpStatus('error');
                 setRsvpMessage(data.error || 'Something went wrong. Please try again.');
@@ -190,16 +190,26 @@ const Home = () => {
                         )}
                     </div>
 
-                    <form onSubmit={handleRsvpSubmit} className="flex flex-col gap-6 relative z-10">
-                        <div>
-                            <label className="block uppercase mb-1">Name</label>
-                            <input
-                                type="text"
-                                value={rsvpData.name}
-                                onChange={(e) => setRsvpData({ ...rsvpData, name: e.target.value })}
-                                className="w-full bg-transparent border-b border-[#F3EBE9]/50 focus:border-[#F3EBE9] outline-none transition-colors text-lg"
-                                required
-                            />
+                    <form data-lenis-prevent onSubmit={handleRsvpSubmit} className="flex flex-col gap-6 relative z-10">
+                        <div className="flex gap-4">
+                            <div className="flex-1">
+                                <label className="block uppercase mb-1">Mr. (Full Name)</label>
+                                <input
+                                    type="text"
+                                    value={rsvpData.mrName}
+                                    onChange={(e) => setRsvpData({ ...rsvpData, mrName: e.target.value })}
+                                    className="w-full bg-transparent border-b border-[#F3EBE9]/50 focus:border-[#F3EBE9] outline-none transition-colors text-lg"
+                                />
+                            </div>
+                            <div className="flex-1">
+                                <label className="block uppercase mb-1">Mrs. (Full Name)</label>
+                                <input
+                                    type="text"
+                                    value={rsvpData.mrsName}
+                                    onChange={(e) => setRsvpData({ ...rsvpData, mrsName: e.target.value })}
+                                    className="w-full bg-transparent border-b border-[#F3EBE9]/50 focus:border-[#F3EBE9] outline-none transition-colors text-lg"
+                                />
+                            </div>
                         </div>
                         <div>
                             <label className="block uppercase mb-1">Email</label>
@@ -253,16 +263,27 @@ const Home = () => {
                             className={`grid transition-all duration-500 ease-in-out ${rsvpData.attending === true ? 'grid-rows-[1fr] opacity-100 mt-2' : 'grid-rows-[0fr] opacity-0'
                                 }`}
                         >
-                            <div className="overflow-hidden">
-                                <label className="block uppercase mb-1">How many people are joining?</label>
-                                <input
-                                    type="number"
-                                    min="1"
-                                    value={rsvpData.guests}
-                                    onChange={(e) => setRsvpData({ ...rsvpData, guests: e.target.value })}
-                                    className="w-full bg-transparent border-b border-[#F3EBE9]/50 focus:border-[#F3EBE9] outline-none transition-colors text-lg"
-                                    required={rsvpData.attending === true}
-                                />
+                            <div className="overflow-hidden flex flex-col gap-6">
+                                <div>
+                                    <label className="block uppercase mb-1">How many people are joining?</label>
+                                    <input
+                                        type="number"
+                                        min="1"
+                                        value={rsvpData.guests}
+                                        onChange={(e) => setRsvpData({ ...rsvpData, guests: e.target.value })}
+                                        className="w-full bg-transparent border-b border-[#F3EBE9]/50 focus:border-[#F3EBE9] outline-none transition-colors text-lg"
+                                        required={rsvpData.attending === true}
+                                    />
+                                </div>
+                                <div>
+                                    <label className="block uppercase mb-1">Full names of guests (if any)</label>
+                                    <textarea
+                                        value={rsvpData.guestNames}
+                                        rows={3}
+                                        onChange={(e) => setRsvpData({ ...rsvpData, guestNames: e.target.value })}
+                                        className="w-full bg-transparent border-b border-[#F3EBE9]/50 focus:border-[#F3EBE9] outline-none transition-colors text-lg resize-none "
+                                    />
+                                </div>
                             </div>
                         </div>
                         <button
