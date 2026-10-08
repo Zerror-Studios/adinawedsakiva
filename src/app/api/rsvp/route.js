@@ -3,14 +3,14 @@ import { sheets, auth } from '@googleapis/sheets';
 
 export async function POST(req) {
   try {
-    const { email, contact, attending, guests } = await req.json();
+    const { email, contact, attending, guests, numGuests } = await req.json();
 
     if (!guests || guests.length === 0 || !email || !contact || attending === null) {
       return new Response(JSON.stringify({ error: 'Required fields missing' }), { status: 400 });
     }
 
-    const guest1 = guests[0] ? `${guests[0].title} ${guests[0].fullName}` : 'N/A';
-    const guest2 = guests[1] ? `${guests[1].title} ${guests[1].fullName}` : 'N/A';
+    const mainGuestOrCouple = guests[0] ? `${guests[0].title} ${guests[0].fullName}` : 'N/A';
+    const additionalGuests = guests.length > 1 ? guests.slice(1).map(g => `${g.title} ${g.fullName}`).join(', ') : 'None';
     const allGuestsStr = guests.map(g => `${g.title} ${g.fullName}`).join(', ');
 
     // Use Gmail service if standard gmail passwords are provided
@@ -25,14 +25,15 @@ export async function POST(req) {
     const mailOptions = {
       from: process.env.NEXT_PUBLIC_EMAIL_USER,
       to: process.env.NEXT_PUBLIC_CLIENT_EMAIL,
-      subject: `New RSVP Submission from ${guest1}`,
+      subject: `New RSVP Submission from ${mainGuestOrCouple}`,
       html: `
         <h2>New RSVP Submission</h2>
-        <p><strong>All Guests:</strong> ${allGuestsStr}</p>
+        <p><strong>Main Guest/Couple:</strong> ${mainGuestOrCouple}</p>
+        <p><strong>Additional Guests:</strong> ${additionalGuests}</p>
         <p><strong>Email:</strong> ${email}</p>
         <p><strong>Contact Number:</strong> ${contact}</p>
         <p><strong>Attending:</strong> ${attending ? 'Yes' : 'No'}</p>
-        <p><strong>Total Number of Guests:</strong> ${attending ? guests.length : 0}</p>
+        <p><strong>Total Number of Guests:</strong> ${attending ? (numGuests || guests.length) : 0}</p>
       `,
     };
 
@@ -58,11 +59,12 @@ export async function POST(req) {
           requestBody: {
             values: [[
               new Date().toLocaleString(),
-              allGuestsStr,
+              mainGuestOrCouple,
+              additionalGuests,
               email,
               contact,
               attending ? 'Yes' : 'No',
-              attending ? guests.length : '0',
+              attending ? (numGuests || guests.length) : '0',
             ]],
           },
         });

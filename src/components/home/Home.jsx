@@ -49,9 +49,37 @@ const Home = () => {
     const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0 });
     const [isPastDate, setIsPastDate] = useState(false);
     const [isRsvpOpen, setIsRsvpOpen] = useState(false);
-    const [rsvpData, setRsvpData] = useState({ guests: [{ title: 'Mr.', fullName: '' }], email: '', contact: '', attending: null });
+    const [rsvpData, setRsvpData] = useState({ numGuests: '1', guests: [{ title: 'Mr.', fullName: '' }], email: '', contact: '', attending: null });
     const [rsvpStatus, setRsvpStatus] = useState('idle');
     const [rsvpMessage, setRsvpMessage] = useState('');
+
+    const handleNumGuestsChange = (val) => {
+        const num = parseInt(val);
+        const numLines = num === 1 ? 1 : num - 1;
+        let newGuests = [...rsvpData.guests];
+        
+        if (newGuests.length < numLines) {
+            while(newGuests.length < numLines) {
+                newGuests.push({ title: 'Mr.', fullName: '' });
+            }
+        } else if (newGuests.length > numLines) {
+            newGuests = newGuests.slice(0, numLines);
+        }
+        
+        if (num >= 2) {
+            const coupleTitles = ['Mr. & Mrs.', 'Mr. & Mr.', 'Mrs. & Mrs.', 'Mr. & Ms.', 'Drs.', 'Rabbi & Rebbitzen', 'Mr.', 'Mrs.', 'Ms.'];
+            if (!coupleTitles.includes(newGuests[0].title)) {
+                newGuests[0].title = 'Mr. & Mrs.';
+            }
+        } else {
+            const singleTitles = ['Mr.', 'Mrs.', 'Ms.', 'Master.', 'Dr.', 'Rabbi.', 'Rebbitzen'];
+            if (!singleTitles.includes(newGuests[0].title)) {
+                newGuests[0].title = 'Mr.';
+            }
+        }
+        
+        setRsvpData({ ...rsvpData, numGuests: val, guests: newGuests });
+    };
 
     const handleRsvpSubmit = async (e) => {
         e.preventDefault();
@@ -76,7 +104,7 @@ const Home = () => {
             if (res.ok) {
                 setRsvpStatus('success');
                 setRsvpMessage('Your RSVP has been submitted successfully!');
-                setRsvpData({ guests: [{ title: 'Mr.', fullName: '' }], email: '', contact: '', attending: null });
+                setRsvpData({ numGuests: '1', guests: [{ title: 'Mr.', fullName: '' }], email: '', contact: '', attending: null });
             } else {
                 setRsvpStatus('error');
                 setRsvpMessage(data.error || 'Something went wrong. Please try again.');
@@ -238,55 +266,82 @@ const Home = () => {
 
                     <form data-lenis-prevent onSubmit={handleRsvpSubmit} className="flex flex-col gap-6 relative z-10">
                         <div className="flex flex-col gap-4">
-                            {rsvpData.guests.map((guest, index) => (
-                                <div key={index} className="flex gap-4 items-end">
-                                    <div className="w-1/3 sm:w-1/4">
-                                        <label className="block uppercase mb-1 text-sm sm:text-base">Title</label>
-                                        <CustomDropdown
-                                            value={guest.title}
-                                            onChange={(val) => {
-                                                const newGuests = [...rsvpData.guests];
-                                                newGuests[index].title = val;
-                                                setRsvpData({ ...rsvpData, guests: newGuests });
-                                            }}
-                                            options={['Mr.', 'Mrs.', 'Ms.', 'Master.', 'Dr.', 'Rabbi.', 'Rebbitzen']}
-                                        />
+                            <div>
+                                <label className="block uppercase mb-1 text-sm sm:text-base">Number of Guests</label>
+                                <CustomDropdown
+                                    value={rsvpData.numGuests}
+                                    onChange={handleNumGuestsChange}
+                                    options={Array.from({ length: Math.max(4, parseInt(rsvpData.numGuests)) }, (_, i) => String(i + 1))}
+                                />
+                            </div>
+                            {rsvpData.guests.map((guest, index) => {
+                                const numGuestsInt = parseInt(rsvpData.numGuests);
+                                const isCoupleLine = numGuestsInt >= 2 && index === 0;
+                                const titles = isCoupleLine 
+                                    ? ['Mr. & Mrs.', 'Mr. & Mr.', 'Mrs. & Mrs.', 'Mr. & Ms.', 'Drs.', 'Rabbi & Rebbitzen', 'Mr.', 'Mrs.', 'Ms.']
+                                    : ['Mr.', 'Mrs.', 'Ms.', 'Master.', 'Dr.', 'Rabbi.', 'Rebbitzen'];
+                                
+                                let labelText;
+                                if (isCoupleLine) {
+                                    labelText = 'Couple Names';
+                                } else {
+                                    labelText = numGuestsInt === 1 ? 'Full Name' : `Guest ${index + 2} Full Name`;
+                                }
+
+                                return (
+                                    <div key={index} className="flex gap-4 items-end">
+                                        <div className="w-44">
+                                            <label className="block uppercase mb-1 text-sm sm:text-base">Title</label>
+                                            <CustomDropdown
+                                                value={guest.title}
+                                                onChange={(val) => {
+                                                    const newGuests = [...rsvpData.guests];
+                                                    newGuests[index].title = val;
+                                                    setRsvpData({ ...rsvpData, guests: newGuests });
+                                                }}
+                                                options={titles}
+                                            />
+                                        </div>
+                                        <div className="flex-1">
+                                            <label className="block uppercase mb-1 text-sm sm:text-base">{labelText}</label>
+                                            <input
+                                                type="text"
+                                                value={guest.fullName}
+                                                onChange={(e) => {
+                                                    const newGuests = [...rsvpData.guests];
+                                                    newGuests[index].fullName = e.target.value;
+                                                    setRsvpData({ ...rsvpData, guests: newGuests });
+                                                }}
+                                                className="w-full bg-transparent border-b border-[#F3EBE9]/50 focus:border-[#F3EBE9] outline-none transition-colors text-lg"
+                                                required
+                                            />
+                                        </div>
+                                        {index > 0 && (
+                                            <button
+                                                type="button"
+                                                onClick={() => {
+                                                    const newGuests = rsvpData.guests.filter((_, i) => i !== index);
+                                                    const newNumGuests = String(parseInt(rsvpData.numGuests) - 1);
+                                                    setRsvpData({ ...rsvpData, guests: newGuests, numGuests: newNumGuests });
+                                                }}
+                                                className="opacity-50 hover:opacity-100 transition-opacity flex-shrink-0 mb-1"
+                                                title="Remove guest"
+                                            >
+                                                <RiCloseLine className="size-6" />
+                                            </button>
+                                        )}
                                     </div>
-                                    <div className="flex-1">
-                                        <label className="block uppercase mb-1 text-sm sm:text-base">Guest  <span className='text-xl'>{index + 1}</span> Full Name</label>
-                                        <input
-                                            type="text"
-                                            value={guest.fullName}
-                                            onChange={(e) => {
-                                                const newGuests = [...rsvpData.guests];
-                                                newGuests[index].fullName = e.target.value;
-                                                setRsvpData({ ...rsvpData, guests: newGuests });
-                                            }}
-                                            className="w-full bg-transparent border-b border-[#F3EBE9]/50 focus:border-[#F3EBE9] outline-none transition-colors text-lg"
-                                            required
-                                        />
-                                    </div>
-                                    {index > 0 && (
-                                        <button
-                                            type="button"
-                                            onClick={() => {
-                                                const newGuests = rsvpData.guests.filter((_, i) => i !== index);
-                                                setRsvpData({ ...rsvpData, guests: newGuests });
-                                            }}
-                                            className=" text-sm uppercase opacity-70 hover:opacity-100 transition-opacity"
-                                        >
-                                            Remove
-                                        </button>
-                                    )}
-                                </div>
-                            ))}
-                            <button
-                                type="button"
-                                onClick={() => setRsvpData({ ...rsvpData, guests: [...rsvpData.guests, { title: 'Mr.', fullName: '' }] })}
-                                className="text-left text-sm uppercase underline opacity-70 hover:opacity-100 transition-opacity mt-1 self-start"
-                            >
-                                + Add another guest
-                            </button>
+                                );
+                            })}
+                            {parseInt(rsvpData.numGuests) >= 3 && (
+                                <button
+                                    type="button"
+                                    onClick={() => handleNumGuestsChange(String(parseInt(rsvpData.numGuests) + 1))}
+                                    className="text-left text-sm uppercase underline opacity-70 hover:opacity-100 transition-opacity mt-1 self-start"
+                                >
+                                    + Add another guest
+                                </button>
+                            )}
                         </div>
                         <div>
                             <label className="block uppercase mb-1">Email</label>
