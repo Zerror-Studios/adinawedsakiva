@@ -4,11 +4,52 @@ import { RiCloseLine } from '@remixicon/react';
 import gsap from 'gsap';
 import React, { useState, useEffect } from 'react'
 
+const CustomDropdown = ({ value, onChange, options }) => {
+    const [isOpen, setIsOpen] = useState(false);
+    
+    useEffect(() => {
+        const handleClickOutside = () => setIsOpen(false);
+        if (isOpen) {
+            setTimeout(() => document.addEventListener('click', handleClickOutside), 0);
+        }
+        return () => document.removeEventListener('click', handleClickOutside);
+    }, [isOpen]);
+
+    return (
+        <div className="relative w-full text-lg" onClick={(e) => e.stopPropagation()}>
+            <div 
+                className="w-full bg-transparent border-b cursor-pointer border-[#F3EBE9]/50 hover:border-[#F3EBE9] outline-none transition-colors  flex justify-between items-center"
+                onClick={() => setIsOpen(!isOpen)}
+            >
+                <span>{value}</span>
+                <span className={`text-xs transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}>▼</span>
+            </div>
+            
+            <div className={`absolute top-full left-0 w-full mt-1 bg-[#F3EBE9] text-[#605C58] rounded-sm shadow-[0_4px_20px_rgba(0,0,0,0.3)] z-50 overflow-hidden transition-all duration-300 origin-top ${isOpen ? 'scale-y-100 opacity-100' : 'scale-y-0 opacity-0 pointer-events-none'}`}>
+                <div className="max-h-48 overflow-y-auto">
+                    {options.map((option) => (
+                        <div 
+                            key={option}
+                            className="px-3 py-2 hover:bg-[#605C58]/10 cursor-pointer transition-colors"
+                            onClick={() => {
+                                onChange(option);
+                                setIsOpen(false);
+                            }}
+                        >
+                            {option}
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
+};
+
 const Home = () => {
     const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0 });
     const [isPastDate, setIsPastDate] = useState(false);
     const [isRsvpOpen, setIsRsvpOpen] = useState(false);
-    const [rsvpData, setRsvpData] = useState({ mrName: '', mrsName: '', email: '', contact: '', attending: null, guests: 1, guestNames: '' });
+    const [rsvpData, setRsvpData] = useState({ guests: [{ title: 'Mr.', fullName: '' }], email: '', contact: '', attending: null });
     const [rsvpStatus, setRsvpStatus] = useState('idle');
     const [rsvpMessage, setRsvpMessage] = useState('');
 
@@ -35,7 +76,7 @@ const Home = () => {
             if (res.ok) {
                 setRsvpStatus('success');
                 setRsvpMessage('Your RSVP has been submitted successfully!');
-                setRsvpData({ mrName: '', mrsName: '', email: '', contact: '', attending: null, guests: 1, guestNames: '' });
+                setRsvpData({ guests: [{ title: 'Mr.', fullName: '' }], email: '', contact: '', attending: null });
             } else {
                 setRsvpStatus('error');
                 setRsvpMessage(data.error || 'Something went wrong. Please try again.');
@@ -196,25 +237,56 @@ const Home = () => {
                     </div>
 
                     <form data-lenis-prevent onSubmit={handleRsvpSubmit} className="flex flex-col gap-6 relative z-10">
-                        <div className="flex gap-4">
-                            <div className="flex-1">
-                                <label className="block uppercase mb-1">Mr. (Full Name)</label>
-                                <input
-                                    type="text"
-                                    value={rsvpData.mrName}
-                                    onChange={(e) => setRsvpData({ ...rsvpData, mrName: e.target.value })}
-                                    className="w-full bg-transparent border-b border-[#F3EBE9]/50 focus:border-[#F3EBE9] outline-none transition-colors text-lg"
-                                />
-                            </div>
-                            <div className="flex-1">
-                                <label className="block uppercase mb-1">Mrs. (Full Name)</label>
-                                <input
-                                    type="text"
-                                    value={rsvpData.mrsName}
-                                    onChange={(e) => setRsvpData({ ...rsvpData, mrsName: e.target.value })}
-                                    className="w-full bg-transparent border-b border-[#F3EBE9]/50 focus:border-[#F3EBE9] outline-none transition-colors text-lg"
-                                />
-                            </div>
+                        <div className="flex flex-col gap-4">
+                            {rsvpData.guests.map((guest, index) => (
+                                <div key={index} className="flex gap-4 items-end">
+                                    <div className="w-1/3 sm:w-1/4">
+                                        <label className="block uppercase mb-1 text-sm sm:text-base">Title</label>
+                                        <CustomDropdown
+                                            value={guest.title}
+                                            onChange={(val) => {
+                                                const newGuests = [...rsvpData.guests];
+                                                newGuests[index].title = val;
+                                                setRsvpData({ ...rsvpData, guests: newGuests });
+                                            }}
+                                            options={['Mr.', 'Mrs.', 'Ms.', 'Master.', 'Dr.', 'Rabbi.', 'Rebbitzen']}
+                                        />
+                                    </div>
+                                    <div className="flex-1">
+                                        <label className="block uppercase mb-1 text-sm sm:text-base">Guest  <span className='text-xl'>{index + 1}</span> Full Name</label>
+                                        <input
+                                            type="text"
+                                            value={guest.fullName}
+                                            onChange={(e) => {
+                                                const newGuests = [...rsvpData.guests];
+                                                newGuests[index].fullName = e.target.value;
+                                                setRsvpData({ ...rsvpData, guests: newGuests });
+                                            }}
+                                            className="w-full bg-transparent border-b border-[#F3EBE9]/50 focus:border-[#F3EBE9] outline-none transition-colors text-lg"
+                                            required
+                                        />
+                                    </div>
+                                    {index > 0 && (
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                const newGuests = rsvpData.guests.filter((_, i) => i !== index);
+                                                setRsvpData({ ...rsvpData, guests: newGuests });
+                                            }}
+                                            className=" text-sm uppercase opacity-70 hover:opacity-100 transition-opacity"
+                                        >
+                                            Remove
+                                        </button>
+                                    )}
+                                </div>
+                            ))}
+                            <button
+                                type="button"
+                                onClick={() => setRsvpData({ ...rsvpData, guests: [...rsvpData.guests, { title: 'Mr.', fullName: '' }] })}
+                                className="text-left text-sm uppercase underline opacity-70 hover:opacity-100 transition-opacity mt-1 self-start"
+                            >
+                                + Add another guest
+                            </button>
                         </div>
                         <div>
                             <label className="block uppercase mb-1">Email</label>
@@ -264,33 +336,7 @@ const Home = () => {
                             </label>
                         </div>
 
-                        <div
-                            className={`grid transition-all duration-500 ease-in-out ${rsvpData.attending === true ? 'grid-rows-[1fr] opacity-100 mt-2' : 'grid-rows-[0fr] opacity-0'
-                                }`}
-                        >
-                            <div className="overflow-hidden flex flex-col gap-6">
-                                <div>
-                                    <label className="block uppercase mb-1">How many people are joining?</label>
-                                    <input
-                                        type="number"
-                                        min="1"
-                                        value={rsvpData.guests}
-                                        onChange={(e) => setRsvpData({ ...rsvpData, guests: e.target.value })}
-                                        className="w-full bg-transparent border-b border-[#F3EBE9]/50 focus:border-[#F3EBE9] outline-none transition-colors text-lg"
-                                        required={rsvpData.attending === true}
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block uppercase mb-1">Full names of guests (if any)</label>
-                                    <textarea
-                                        value={rsvpData.guestNames}
-                                        rows={3}
-                                        onChange={(e) => setRsvpData({ ...rsvpData, guestNames: e.target.value })}
-                                        className="w-full bg-transparent border-b border-[#F3EBE9]/50 focus:border-[#F3EBE9] outline-none transition-colors text-lg resize-none "
-                                    />
-                                </div>
-                            </div>
-                        </div>
+
                         <button
                             type="submit"
                             disabled={rsvpStatus === 'loading'}

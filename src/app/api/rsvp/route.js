@@ -3,11 +3,15 @@ import { sheets, auth } from '@googleapis/sheets';
 
 export async function POST(req) {
   try {
-    const { mrName, mrsName, email, contact, attending, guests, guestNames } = await req.json();
+    const { email, contact, attending, guests } = await req.json();
 
-    if ((!mrName && !mrsName) || !email || !contact || attending === null) {
+    if (!guests || guests.length === 0 || !email || !contact || attending === null) {
       return new Response(JSON.stringify({ error: 'Required fields missing' }), { status: 400 });
     }
+
+    const guest1 = guests[0] ? `${guests[0].title} ${guests[0].fullName}` : 'N/A';
+    const guest2 = guests[1] ? `${guests[1].title} ${guests[1].fullName}` : 'N/A';
+    const allGuestsStr = guests.map(g => `${g.title} ${g.fullName}`).join(', ');
 
     // Use Gmail service if standard gmail passwords are provided
     const transporter = nodemailer.createTransport({
@@ -21,16 +25,14 @@ export async function POST(req) {
     const mailOptions = {
       from: process.env.NEXT_PUBLIC_EMAIL_USER,
       to: process.env.NEXT_PUBLIC_CLIENT_EMAIL,
-      subject: `New RSVP Submission from ${mrName || mrsName || 'Guest'}`,
+      subject: `New RSVP Submission from ${guest1}`,
       html: `
         <h2>New RSVP Submission</h2>
-        <p><strong>Mr. (Name):</strong> ${mrName || 'N/A'}</p>
-        <p><strong>Mrs. (Name):</strong> ${mrsName || 'N/A'}</p>
+        <p><strong>All Guests:</strong> ${allGuestsStr}</p>
         <p><strong>Email:</strong> ${email}</p>
         <p><strong>Contact Number:</strong> ${contact}</p>
         <p><strong>Attending:</strong> ${attending ? 'Yes' : 'No'}</p>
-        <p><strong>Number of Guests:</strong> ${attending ? guests : 'N/A'}</p>
-        <p><strong>Guest Names:</strong> ${guestNames || 'N/A'}</p>
+        <p><strong>Total Number of Guests:</strong> ${attending ? guests.length : 0}</p>
       `,
     };
 
@@ -56,13 +58,11 @@ export async function POST(req) {
           requestBody: {
             values: [[
               new Date().toLocaleString(),
-              mrName || 'N/A',
-              mrsName || 'N/A',
+              allGuestsStr,
               email,
               contact,
               attending ? 'Yes' : 'No',
-              attending ? guests : '0',
-              guestNames || 'N/A'
+              attending ? guests.length : '0',
             ]],
           },
         });
