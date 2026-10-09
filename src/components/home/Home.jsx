@@ -49,7 +49,7 @@ const Home = () => {
     const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0 });
     const [isPastDate, setIsPastDate] = useState(false);
     const [isRsvpOpen, setIsRsvpOpen] = useState(false);
-    const [rsvpData, setRsvpData] = useState({ numGuests: '1', guests: [{ title: 'Mr.', fullName: '' }], email: '', contact: '', attending: null });
+    const [rsvpData, setRsvpData] = useState({ numGuests: '1', guests: [{ title: 'Mr.', fullName: '' }], email: '', contact: '', attending: null, side: 'SPIEGEL', relation: 'Friend', customRelation: '' });
     const [rsvpStatus, setRsvpStatus] = useState('idle');
     const [rsvpMessage, setRsvpMessage] = useState('');
 
@@ -104,7 +104,7 @@ const Home = () => {
             if (res.ok) {
                 setRsvpStatus('success');
                 setRsvpMessage('Your RSVP has been submitted successfully!');
-                setRsvpData({ numGuests: '1', guests: [{ title: 'Mr.', fullName: '' }], email: '', contact: '', attending: null });
+                setRsvpData({ numGuests: '1', guests: [{ title: 'Mr.', fullName: '' }], email: '', contact: '', attending: null, side: 'SPIEGEL', relation: 'Friend', customRelation: '' });
             } else {
                 setRsvpStatus('error');
                 setRsvpMessage(data.error || 'Something went wrong. Please try again.');
@@ -240,32 +240,49 @@ const Home = () => {
                     </button>
                     <h2 className="text-3xl uppercase text-center mb-8 relative z-10">RSVP</h2>
 
-                    {/* Status Popups */}
-                    <div className={`absolute inset-0 z-40 flex flex-col items-center justify-center p-8 text-center transition-all duration-500 bg-[#605C58] ${rsvpStatus === 'success' || rsvpStatus === 'error' ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`}>
-                        {rsvpStatus === 'success' && (
-                            <div className="flex flex-col items-center animate-in zoom-in duration-500">
-                                <div className="w-20 h-20 rounded-full border-2 border-[#F3EBE9] flex items-center justify-center mb-6">
-                                    <span className="text-4xl text-[#F3EBE9]">✓</span>
-                                </div>
-                                <h3 className="text-3xl uppercase mb-4">Thank You!</h3>
-                                <p className="text-lg opacity-80">{rsvpMessage}</p>
-                                <button onClick={() => { setIsRsvpOpen(false); setTimeout(() => setRsvpStatus('idle'), 500); }} className="mt-10 border-2 border-[#F3EBE9] text-[#F3EBE9] hover:bg-[#F3EBE9] hover:text-[#605C58] px-10 py-3 uppercase tracking-widest transition-all duration-300 font-medium rounded-sm">Close</button>
-                            </div>
-                        )}
-                        {rsvpStatus === 'error' && (
-                            <div className="flex flex-col items-center animate-in zoom-in duration-500">
-                                <div className="w-20 h-20 rounded-full border-2 border-[#F3EBE9] flex items-center justify-center mb-6">
-                                    <span className="text-4xl text-[#F3EBE9]">!</span>
-                                </div>
-                                <h3 className="text-3xl uppercase mb-4">Oops</h3>
-                                <p className="text-lg opacity-80">{rsvpMessage}</p>
-                                <button onClick={() => setRsvpStatus('idle')} className="mt-10 border-2 border-[#F3EBE9] text-[#F3EBE9] hover:bg-[#F3EBE9] hover:text-[#605C58] px-10 py-3 uppercase tracking-widest transition-all duration-300 font-medium rounded-sm">Try Again</button>
-                            </div>
-                        )}
-                    </div>
-
                     <form data-lenis-prevent onSubmit={handleRsvpSubmit} className="flex flex-col gap-6 relative z-10">
+                        <div className="flex justify-center w-full mb-2">
+                            <div className="relative flex items-center bg-transparent border-2 border-[#F3EBE9] rounded-full p-1 w-full max-w-[280px] h-12 cursor-pointer" onClick={() => setRsvpData({ ...rsvpData, side: rsvpData.side === 'SPIEGEL' ? 'GLUCK' : 'SPIEGEL' })}>
+                                <div 
+                                    className={`absolute top-1 bottom-1 w-[calc(50%-4px)] bg-[#F3EBE9] rounded-full transition-all duration-300 ease-in-out ${rsvpData.side === 'GLUCK' ? 'left-[calc(50%+2px)]' : 'left-1'}`}
+                                ></div>
+                                <button
+                                    type="button"
+                                    onClick={(e) => { e.stopPropagation(); setRsvpData({ ...rsvpData, side: 'SPIEGEL' }); }}
+                                    className={`flex-1 relative z-10 font-medium text-sm transition-colors duration-300 uppercase tracking-wider ${rsvpData.side === 'SPIEGEL' ? 'text-[#605C58]' : 'text-[#F3EBE9] hover:text-[#F3EBE9]/80'}`}
+                                >
+                                    Spiegel
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={(e) => { e.stopPropagation(); setRsvpData({ ...rsvpData, side: 'GLUCK' }); }}
+                                    className={`flex-1 relative z-10 font-medium text-sm transition-colors duration-300 uppercase tracking-wider ${rsvpData.side === 'GLUCK' ? 'text-[#605C58]' : 'text-[#F3EBE9] hover:text-[#F3EBE9]/80'}`}
+                                >
+                                    Gluck
+                                </button>
+                            </div>
+                        </div>
                         <div className="flex flex-col gap-4">
+                            <div>
+                                <label className="block uppercase mb-1 text-sm sm:text-base">Relation</label>
+                                <CustomDropdown
+                                    value={rsvpData.relation}
+                                    onChange={(val) => setRsvpData({ ...rsvpData, relation: val })}
+                                    options={['Sibling', 'Cousin', 'Friend', 'Others']}
+                                />
+                            </div>
+                            {rsvpData.relation === 'Others' && (
+                                <div>
+                                    <label className="block uppercase mb-1 text-sm sm:text-base">Please specify relation</label>
+                                    <input
+                                        type="text"
+                                        value={rsvpData.customRelation}
+                                        onChange={(e) => setRsvpData({ ...rsvpData, customRelation: e.target.value })}
+                                        className="w-full bg-transparent border-b border-[#F3EBE9]/50 focus:border-[#F3EBE9] outline-none transition-colors text-lg"
+                                        required
+                                    />
+                                </div>
+                            )}
                             <div>
                                 <label className="block uppercase mb-1 text-sm sm:text-base">Number of Guests</label>
                                 <CustomDropdown
@@ -400,6 +417,34 @@ const Home = () => {
                             {rsvpStatus === 'loading' ? 'Submitting...' : 'Submit'}
                         </button>
                     </form>
+                </div>
+            </div>
+
+            {/* Status Modal */}
+            <div
+                className={`fixed inset-0 z-[1100] flex items-center justify-center transition-all duration-500 ${rsvpStatus === 'success' || rsvpStatus === 'error' ? 'opacity-100 visible backdrop-blur-sm bg-black/40' : 'opacity-0 invisible backdrop-blur-none bg-transparent pointer-events-none'}`}
+            >
+                <div className={`bg-[#605C58] text-[#F3EBE9] p-8 md:p-10 rounded-lg w-[90%] max-w-[400px] flex flex-col items-center text-center shadow-2xl transition-all duration-500 ${rsvpStatus === 'success' || rsvpStatus === 'error' ? 'scale-100' : 'scale-90'}`}>
+                    {rsvpStatus === 'success' && (
+                        <div className="flex flex-col items-center w-full animate-in zoom-in duration-500">
+                            <div className="w-20 h-20 rounded-full border-2 border-[#F3EBE9] flex items-center justify-center mb-6">
+                                <span className="text-4xl text-[#F3EBE9]">✓</span>
+                            </div>
+                            <h3 className="text-3xl uppercase mb-4">Thank You!</h3>
+                            <p className="text-lg opacity-80">{rsvpMessage}</p>
+                            <button onClick={() => { setIsRsvpOpen(false); setTimeout(() => setRsvpStatus('idle'), 500); }} className="mt-8 border-2 border-[#F3EBE9] text-[#F3EBE9] hover:bg-[#F3EBE9] hover:text-[#605C58] w-full py-3 uppercase tracking-widest transition-all duration-300 font-medium rounded-sm">Close</button>
+                        </div>
+                    )}
+                    {rsvpStatus === 'error' && (
+                        <div className="flex flex-col items-center w-full animate-in zoom-in duration-500">
+                            <div className="w-20 h-20 rounded-full border-2 border-[#F3EBE9] flex items-center justify-center mb-6">
+                                <span className="text-4xl text-[#F3EBE9]">!</span>
+                            </div>
+                            <h3 className="text-3xl uppercase mb-4">Oops</h3>
+                            <p className="text-lg opacity-80">{rsvpMessage}</p>
+                            <button onClick={() => setRsvpStatus('idle')} className="mt-8 border-2 border-[#F3EBE9] text-[#F3EBE9] hover:bg-[#F3EBE9] hover:text-[#605C58] w-full py-3 uppercase tracking-widest transition-all duration-300 font-medium rounded-sm">Try Again</button>
+                        </div>
+                    )}
                 </div>
             </div>
         </>

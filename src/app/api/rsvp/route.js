@@ -2,10 +2,16 @@ import { sheets, auth } from '@googleapis/sheets';
 
 export async function POST(req) {
   try {
-    const { email, contact, attending, guests, numGuests } = await req.json();
+    const { email, contact, attending, guests, numGuests, side, relation, customRelation } = await req.json();
 
-    if (!guests || guests.length === 0 || !email || !contact || attending === null) {
+    console.log('Received RSVP Data:', { email, contact, attending, guests, numGuests, side, relation, customRelation });
+
+    if (!guests || guests.length === 0 || !email || !contact || attending === null || !side || !relation) {
       return new Response(JSON.stringify({ error: 'Required fields missing' }), { status: 400 });
+    }
+
+    if (relation === 'Others' && (!customRelation || customRelation.trim() === '')) {
+      return new Response(JSON.stringify({ error: 'Please specify your relation' }), { status: 400 });
     }
 
     const mainGuestOrCouple = guests[0] ? `${guests[0].title} ${guests[0].fullName}` : 'N/A';
@@ -27,7 +33,7 @@ export async function POST(req) {
 
         await sheetsAPI.spreadsheets.values.append({
           spreadsheetId: process.env.NEXT_PUBLIC_GOOGLE_SHEET_ID,
-          range: 'Sheet1!A:H',
+          range: 'Sheet1',
           valueInputOption: 'USER_ENTERED',
           requestBody: {
             values: [[
@@ -38,6 +44,8 @@ export async function POST(req) {
               contact,
               attending ? 'Yes' : 'No',
               attending ? (numGuests || guests.length) : '0',
+              side,
+              relation === 'Others' ? customRelation : relation,
             ]],
           },
         });
