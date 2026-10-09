@@ -1,4 +1,3 @@
-import nodemailer from 'nodemailer';
 import { sheets, auth } from '@googleapis/sheets';
 
 export async function POST(req) {
@@ -12,32 +11,6 @@ export async function POST(req) {
     const mainGuestOrCouple = guests[0] ? `${guests[0].title} ${guests[0].fullName}` : 'N/A';
     const additionalGuests = guests.length > 1 ? guests.slice(1).map(g => `${g.title} ${g.fullName}`).join(', ') : 'None';
     const allGuestsStr = guests.map(g => `${g.title} ${g.fullName}`).join(', ');
-
-    // Use Gmail service if standard gmail passwords are provided
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.NEXT_PUBLIC_EMAIL_USER,
-        pass: process.env.NEXT_PUBLIC_EMAIL_PASS,
-      },
-    });
-
-    const mailOptions = {
-      from: process.env.NEXT_PUBLIC_EMAIL_USER,
-      to: process.env.NEXT_PUBLIC_CLIENT_EMAIL,
-      subject: `New RSVP Submission from ${mainGuestOrCouple}`,
-      html: `
-        <h2>New RSVP Submission</h2>
-        <p><strong>Main Guest/Couple:</strong> ${mainGuestOrCouple}</p>
-        <p><strong>Additional Guests:</strong> ${additionalGuests}</p>
-        <p><strong>Email:</strong> ${email}</p>
-        <p><strong>Contact Number:</strong> ${contact}</p>
-        <p><strong>Attending:</strong> ${attending ? 'Yes' : 'No'}</p>
-        <p><strong>Total Number of Guests:</strong> ${attending ? (numGuests || guests.length) : 0}</p>
-      `,
-    };
-
-    await transporter.sendMail(mailOptions);
 
     // Google Sheets integration
     try {
